@@ -1,0 +1,85 @@
+doctype html
+html(lang="ru-RU")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv='X-UA-Compatible', content="IE=edge")
+    meta(name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE")
+    meta(name="format-detection" content="telephone=no")
+    meta(name="viewport" content="width=device-width,initial-scale=1")
+    meta(name="author" content="//vk.com/tishukn")
+
+    link(rel="stylesheet", href="demo/prism.css")
+
+    link(rel="stylesheet" type='text/css' href="demo/style.css")
+
+    meta(name="description" content="Simple and easy Input Spinner")
+
+    title INumber Demo
+
+  body
+    <!--[if lte IE 9]>
+    p.browsehappy Вы используете #[strong устаревший] браузер. Пожалуйста #[a(href="//browsehappy.com/", target="_blank") обновите ваш браузер] чтобы воспользоваться всем функционалом сайта.
+    <![endif]-->
+
+    .container
+
+      .header.text-center
+        .row
+          h1 INumber Demo
+          p Simple and easy Input Spinner
+
+        p
+          a(href="https://github.com/rainjeck/inumber2") GitHub
+
+      .block.text-center
+        .row
+          .inumber(data-inumber)
+            button.inumber-button(type="button", data-inumber-down) -
+            input.inumber-input(type="number", data-inumber-input, min="1", max="10", step="1", value="1")
+            button.inumber-button(type="button", data-inumber-up) +
+
+        .row
+          .inumber(data-inumber)
+            button.inumber-button(type="button", data-inumber-down) -
+            input.inumber-input(type="number", data-inumber-input, min="0.25", max="10", step="0.15", value="1.2")
+            button.inumber-button(type="button", data-inumber-up) +
+
+        .row
+          button.button#reinit(type="button") ReInit
+
+      .block
+        .row
+          h3.title: strong Usage:
+          .title HTML:
+
+        .row
+          pre.language-markup: code.
+            #{"<div data-inumber>"}
+              #{'<button type="button" data-inumber-down>DOWN</button>'}
+              #{'<input type="text" data-inumber-input min="1" max="10" step="1" value="1"/>'}
+              #{'<button type="button" data-inumber-up>UP</button>'}
+            #{"</div>"}
+
+            #{"<div data-inumber>"}
+              #{'<button type="button" data-inumber-down>DOWN</button>'}
+              #{'<input type="text" data-inumber-input min="0.25" max="10" step="0.15" value="1.2"/>'}
+              #{'<button type="button" data-inumber-up>UP</button>'}
+            #{"</div>"}
+
+      .block
+        p Attributes 'min', 'max', 'step', 'value' are required
+
+      .block
+        .title JavaScript:
+
+        pre.language-javascript: code.
+          new INumber.default('[data-inumber]', {
+            change: function(inputEl, value) { ... }
+          });
+
+          // Reinit
+          INumber.default.prototype.init();
+
+    script(src="demo/prism.js")
+    script(src="dest/inumber.js")
+    script(src="demo/script.js")

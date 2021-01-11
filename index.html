@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="//vk.com/tishukn">
+    <link rel="stylesheet" href="demo/prism.css">
+    <link rel="stylesheet" type="text/css" href="demo/style.css">
+    <meta name="description" content="Simple and easy Input Spinner">
+    <title>INumber Demo</title>
+  </head>
+  <body><!--[if lte IE 9]>
+    <p class="browsehappy">Вы используете <strong>устаревший</strong> браузер. Пожалуйста <a href="//browsehappy.com/" target="_blank">обновите ваш браузер</a> чтобы воспользоваться всем функционалом сайта.</p><![endif]-->
+    <div class="container">
+      <div class="header text-center">
+        <div class="row">
+          <h1>INumber Demo</h1>
+          <p>Simple and easy Input Spinner</p>
+        </div>
+        <p><a href="https://github.com/rainjeck/inumber2">GitHub</a></p>
+      </div>
+      <div class="block text-center">
+        <div class="row">
+          <div class="inumber" data-inumber>
+            <button class="inumber-button" type="button" data-inumber-down>-</button>
+            <input class="inumber-input" type="number" data-inumber-input min="1" max="10" step="1" value="1">
+            <button class="inumber-button" type="button" data-inumber-up>+</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="inumber" data-inumber>
+            <button class="inumber-button" type="button" data-inumber-down>-</button>
+            <input class="inumber-input" type="number" data-inumber-input min="0.25" max="10" step="0.15" value="1.2">
+            <button class="inumber-button" type="button" data-inumber-up>+</button>
+          </div>
+        </div>
+        <div class="row">
+          <button class="button" id="reinit" type="button">ReInit</button>
+        </div>
+      </div>
+      <div class="block">
+        <div class="row">
+          <h3 class="title"><strong>Usage:</strong></h3>
+          <div class="title">HTML:</div>
+        </div>
+        <div class="row">
+          <pre class="language-markup"><code>&lt;div data-inumber&gt;
+  &lt;button type=&quot;button&quot; data-inumber-down&gt;DOWN&lt;/button&gt;
+  &lt;input type=&quot;text&quot; data-inumber-input min=&quot;1&quot; max=&quot;10&quot; step=&quot;1&quot; value=&quot;1&quot;/&gt;
+  &lt;button type=&quot;button&quot; data-inumber-up&gt;UP&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div data-inumber&gt;
+  &lt;button type=&quot;button&quot; data-inumber-down&gt;DOWN&lt;/button&gt;
+  &lt;input type=&quot;text&quot; data-inumber-input min=&quot;0.25&quot; max=&quot;10&quot; step=&quot;0.15&quot; value=&quot;1.2&quot;/&gt;
+  &lt;button type=&quot;button&quot; data-inumber-up&gt;UP&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+        </div>
+      </div>
+      <div class="block">
+        <p>Attributes 'min', 'max', 'step', 'value' are required</p>
+      </div>
+      <div class="block">
+        <div class="title">JavaScript:</div>
+        <pre class="language-javascript"><code>new INumber.default('[data-inumber]', {
+  change: function(inputEl, value) { ... }
+});
+
+// Reinit
+INumber.default.prototype.init();
+</code></pre>
+      </div>
+    </div>
+    <script src="demo/prism.js"></script>
+    <script src="dest/inumber.js"></script>
+    <script src="demo/script.js"></script>
+  </body>
+</html>
