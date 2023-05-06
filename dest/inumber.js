@@ -1,6 +1,6 @@
 /**
  * License: MIT
- * Version: 2.0.0
+ * Version: 2.0.1
  * Description: Simple and easy Input Spinner
  * Author: Tishuk Nadezda
  * Homepage: https://rainjeck.github.io/inumber2/
@@ -56,27 +56,56 @@
           return;
         }
       });
+      document.body.addEventListener('change', function (e) {
+        var elems = Array.from(document.querySelectorAll(_this.selector));
+        if (!elems) return;
+
+        _this.start(elems);
+
+        var inputEl = e.target.closest('[data-inumber-input]');
+        if (!inputEl) return;
+
+        var endValue = _this.checkNewValue(inputEl, e.target.value);
+
+        if (_this.params && typeof _this.params.change === "function") {
+          _this.params.change(inputEl, parseFloat(endValue));
+        }
+      });
+      document.body.addEventListener('focus', function (e) {
+        var inputEl = e.target.closest('[data-inumber-input]');
+        if (!inputEl) return;
+
+        if (inputEl.value == 0) {
+          inputEl.value = '';
+        }
+      }, true);
+      document.body.addEventListener('blur', function (e) {
+        var inputEl = e.target.closest('[data-inumber-input]');
+        if (!inputEl) return;
+
+        if (!inputEl.value) {
+          _this.checkNewValue(inputEl, e.target.value);
+        }
+      }, true);
     }
 
     _createClass(INumber, [{
       key: "init",
       value: function init() {
+        var elems = Array.from(document.querySelectorAll(this.selector));
+        this.start(elems);
+      }
+    }, {
+      key: "start",
+      value: function start(elems) {
         var _this2 = this;
 
-        var elems = Array.from(document.querySelectorAll(this.selector));
-        elems.forEach(function (item, i) {
+        if (!elems) return;
+        elems.forEach(function (item) {
           var inputEl = item.querySelector('[data-inumber-input]');
           var value = parseFloat(inputEl.value);
 
           _this2.checkNewValue(inputEl, value);
-
-          inputEl.addEventListener('change', function (e) {
-            var endValue = _this2.checkNewValue(inputEl, e.target.value);
-
-            if (_this2.params && typeof _this2.params.change === "function") {
-              _this2.params.change(inputEl, parseFloat(endValue));
-            }
-          });
         });
       }
     }, {

@@ -30,24 +30,59 @@ class INumber {
         return;
       }
     });
+
+    document.body.addEventListener('change', e => {
+      const elems = Array.from(document.querySelectorAll(this.selector));
+
+      if (!elems) return;
+
+      this.start(elems);
+
+      const inputEl = e.target.closest('[data-inumber-input]');
+
+      if (!inputEl) return;
+
+      const endValue = this.checkNewValue(inputEl, e.target.value);
+
+      if (this.params && typeof this.params.change === "function") {
+        this.params.change( inputEl, parseFloat(endValue) );
+      }
+    });
+
+    document.body.addEventListener('focus', e => {
+      const inputEl = e.target.closest('[data-inumber-input]');
+
+      if (!inputEl) return;
+
+      if (inputEl.value == 0) {
+        inputEl.value = '';
+      }
+    }, true);
+
+    document.body.addEventListener('blur', e => {
+      const inputEl = e.target.closest('[data-inumber-input]');
+
+      if (!inputEl) return;
+
+      if (!inputEl.value) {
+        this.checkNewValue(inputEl, e.target.value);
+      }
+    }, true);
   }
 
   init() {
-    const elems = Array.from( document.querySelectorAll(this.selector) );
+    const elems = Array.from(document.querySelectorAll(this.selector));
 
-    elems.forEach((item, i) => {
+    this.start(elems);
+  }
+
+  start(elems) {
+    if (!elems) return;
+
+    elems.forEach(item => {
       const inputEl = item.querySelector('[data-inumber-input]');
       const value = parseFloat(inputEl.value);
-
       this.checkNewValue(inputEl, value);
-
-      inputEl.addEventListener('change', e => {
-        const endValue = this.checkNewValue(inputEl, e.target.value);
-
-        if (this.params && typeof this.params.change === "function") {
-          this.params.change( inputEl, parseFloat(endValue) );
-        }
-      });
     });
   }
 

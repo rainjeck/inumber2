@@ -4,6 +4,7 @@ Simple and easy Input Spinner. Version 2.
 
 Support:
  - Float numbers
+ - Global Listeners
 
 ## Files
 Include ```inumber.min.js```
