@@ -74,7 +74,10 @@ html(lang="ru-RU")
 
         pre.language-javascript: code.
           new INumber.default('[data-inumber]', {
-            change: function(inputEl, value) { ... }
+            debounceChange: 300, // default 300
+            debounceKeyup: 300, // default 300
+            change: function(inputEl, value) { ... },
+            keyup: function(inputEl, value) { ... }
           });
 
           // Reinit

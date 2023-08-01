@@ -32,7 +32,12 @@ Attributes 'min', 'max', 'step', 'value' are required
 ## Usage
 ```
 new INumber.default('[data-inumber]', {
+  debounceChange: 300, // default 300
+  debounceKeyup: 300, // default 300
   change: function(inputEl, value) {
+    /* ... do your stuff here ... */
+  },
+  keyup: function(inputEl, value) {
     /* ... do your stuff here ... */
   }
 });

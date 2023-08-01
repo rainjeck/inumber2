@@ -13,7 +13,10 @@ class INumber {
 
     this.params = opts || {};
 
-    if ( !document.querySelector(selector) ) return;
+    if (!document.querySelector(selector)) return;
+
+    const debounceChange = (this.params && this.params.debounceChange) ? this.params.debounceChange : 300;
+    const debounceKeyup = (this.params && this.params.debounceKeyup) ? this.params.debounceKeyup : 300;
 
     this.init();
 
@@ -31,23 +34,41 @@ class INumber {
       }
     });
 
-    document.body.addEventListener('change', e => {
+    document.body.addEventListener('change', this.debounce(e => {
+      const inputEl = e.target.closest('[data-inumber-input]');
+
+      if (!inputEl) return;
+
       const elems = Array.from(document.querySelectorAll(this.selector));
 
       if (!elems) return;
 
       this.start(elems);
 
-      const inputEl = e.target.closest('[data-inumber-input]');
-
-      if (!inputEl) return;
-
       const endValue = this.checkNewValue(inputEl, e.target.value);
 
       if (this.params && typeof this.params.change === "function") {
         this.params.change( inputEl, parseFloat(endValue) );
       }
-    });
+    }, debounceChange));
+
+    document.body.addEventListener('keyup', this.debounce(e => {
+      const inputEl = e.target.closest('[data-inumber-input]');
+
+      if (!inputEl) return;
+
+      const elems = Array.from(document.querySelectorAll(this.selector));
+
+      if (!elems) return;
+
+      this.start(elems);
+
+      const endValue = this.checkNewValue(inputEl, e.target.value);
+
+      if (this.params && typeof this.params.keyup === "function") {
+        this.params.keyup( inputEl, parseFloat(endValue) );
+      }
+    }, debounceKeyup));
 
     document.body.addEventListener('focus', e => {
       const inputEl = e.target.closest('[data-inumber-input]');
@@ -82,6 +103,7 @@ class INumber {
     elems.forEach(item => {
       const inputEl = item.querySelector('[data-inumber-input]');
       const value = parseFloat(inputEl.value);
+
       this.checkNewValue(inputEl, value);
     });
   }
@@ -154,6 +176,15 @@ class INumber {
     inputEl.value = newValue;
 
     return newValue;
+  }
+
+  debounce(func, timeout = 300) {
+    let timer;
+
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
   }
 }
 

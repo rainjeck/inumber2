@@ -46,6 +46,8 @@
       this.selector = selector;
       this.params = opts || {};
       if (!document.querySelector(selector)) return;
+      var debounceChange = this.params && this.params.debounceChange ? this.params.debounceChange : 300;
+      var debounceKeyup = this.params && this.params.debounceKeyup ? this.params.debounceKeyup : 300;
       this.init();
       document.addEventListener('click', function (e) {
         if (e.target.closest('[data-inumber-down]')) {
@@ -56,21 +58,34 @@
           return;
         }
       });
-      document.body.addEventListener('change', function (e) {
+      document.body.addEventListener('change', this.debounce(function (e) {
+        var inputEl = e.target.closest('[data-inumber-input]');
+        if (!inputEl) return;
         var elems = Array.from(document.querySelectorAll(_this.selector));
         if (!elems) return;
 
         _this.start(elems);
-
-        var inputEl = e.target.closest('[data-inumber-input]');
-        if (!inputEl) return;
 
         var endValue = _this.checkNewValue(inputEl, e.target.value);
 
         if (_this.params && typeof _this.params.change === "function") {
           _this.params.change(inputEl, parseFloat(endValue));
         }
-      });
+      }, debounceChange));
+      document.body.addEventListener('keyup', this.debounce(function (e) {
+        var inputEl = e.target.closest('[data-inumber-input]');
+        if (!inputEl) return;
+        var elems = Array.from(document.querySelectorAll(_this.selector));
+        if (!elems) return;
+
+        _this.start(elems);
+
+        var endValue = _this.checkNewValue(inputEl, e.target.value);
+
+        if (_this.params && typeof _this.params.keyup === "function") {
+          _this.params.keyup(inputEl, parseFloat(endValue));
+        }
+      }, debounceKeyup));
       document.body.addEventListener('focus', function (e) {
         var inputEl = e.target.closest('[data-inumber-input]');
         if (!inputEl) return;
@@ -178,6 +193,24 @@
 
         inputEl.value = newValue;
         return newValue;
+      }
+    }, {
+      key: "debounce",
+      value: function debounce(func) {
+        var _this3 = this;
+
+        var timeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 300;
+        var timer;
+        return function () {
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            func.apply(_this3, args);
+          }, timeout);
+        };
       }
     }]);
 
